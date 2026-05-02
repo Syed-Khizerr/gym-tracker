@@ -2,29 +2,101 @@ import React from 'react';
 import {HomeScreen}  from './screens/HomeScreen';
 import {ProfileScreen} from './screens/ProfileScreen';
 import {WorkoutSession} from './screens/WorkoutSession';
+import { HistoryScreen } from 'screens/HistoryScreen';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Image, Text } from 'react-native';
 
 
 import './global.css';
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator()
 
-const StackNavigator =() => (
-  <NavigationContainer >
-
-    <Stack.Navigator screenOptions={{headerShown: false}} >
-      <Stack.Screen name='Home' component={HomeScreen} />
-      <Stack.Screen name='Workout' component={WorkoutSession} />
-      <Stack.Screen name='Profile' component={ProfileScreen} />
-    </Stack.Navigator>
-    
-  </NavigationContainer>
-  );
 export default function App() {
   return (
-    <>
-    <StackNavigator/>
-    </>
+    <NavigationContainer>
+      <Tab.Navigator screenOptions={{headerShown:false}}>
+        <Tab.Screen name='Home' component={HomeScreen} options={{
+          tabBarIcon : ({focused}) => {
+            return (<Image 
+              source={
+                focused ? require ("./assets/home.png") : require ("./assets/home.png")
+              }
+              style={{
+                  width: focused?24:22,
+                  height: focused?24:22
+                }}
+            />
+  )},
+          tabBarLabel : ({focused}) => {
+            return (
+              <Text className={focused?"text-zinc-950 font-bold text-sm":"text-zinc-600 text-sm"}>Home</Text>
+            )
+          }
+          }}/>
+        <Tab.Screen name='Workout' component={WorkoutSession} options={{
+          tabBarIcon : ({focused}) => {
+            return (<Image 
+              source={
+                focused ? require ("./assets/workout.png") : require ("./assets/workout.png")
+              }
+              style={{
+                  width: focused?24:22,
+                  height: focused?24:22
+                }}
+            />
+  )},
+          tabBarLabel : ({focused}) => {
+            return (
+              <Text className={focused?"text-zinc-950 font-bold text-sm":"text-zinc-600 text-sm"}>Workout</Text>
+            )
+          }
+          }}
+        />
+
+        <Tab.Screen name='History' component={HistoryScreen} options={{
+          tabBarIcon : ({focused}) => {
+            return(
+              <Image
+                source={
+                  focused ? require ("./assets/history.png") : require ("./assets/history.png")
+                }
+                style={{
+                  width: focused?24:22,
+                  height: focused?24:22
+                }}
+            />)
+          },
+          tabBarLabel : ({focused}) => {
+            return (
+              <Text className={focused?"text-zinc-950 font-bold text-sm":"text-zinc-600 text-sm"}>History</Text>
+            )
+          }
+        }}
+        />
+        <Tab.Screen name='Profile' component={ProfileScreen} options={{
+          tabBarIcon : ({focused}) => {
+            return(
+              <Image
+                source={
+                  focused ? require ("./assets/profile.png") : require ("./assets/profile.png")
+                }
+                style={{
+                  width: focused?24:22,
+                  height: focused?24:22
+                }}
+                />
+            )
+          },
+          tabBarLabel : ({focused}) => {
+            return (
+              <Text className={focused?"text-zinc-950 font-bold text-sm":"text-zinc-600 text-sm"}>Profile</Text>
+            )
+          }
+        }}
+        
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
